@@ -1,0 +1,36 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Run Unit Tests
+
+on:
+  push:
+    branches:
+      - main  # Change this if you want to trigger on different branches
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macOS-latest]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Purest
+        run: npm install --save-dev purest
+
+      - name: Run tests
+        run: npx purest
